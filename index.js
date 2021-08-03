@@ -19,7 +19,7 @@ program
 .option("-s, --save","Save password to password.txt",)
 .option("-nn, --no-numbers","Exclude numbers in the password",)
 .option("-ns, --no-symbols","Exclude symbols in the password",)
-.option("-c, --clear","Exclude symbols in the password",)
+.option("-c, --clear","clear the password.txt file",)
 .parse()
 
 const {length, save, numbers, symbols,name,clear } = program.opts()
