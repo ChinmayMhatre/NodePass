@@ -11,8 +11,6 @@ In order to use nodepass, you have to run these commands.
 Clone repository
 ```sh 
 git clone https://github.com/ChinmayMhatre/NodePass.git
-npm link
-
 ```
 Navigate to the folder
 ```sh
