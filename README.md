@@ -4,10 +4,17 @@ NodePass is a simple password generator which runs on NodeJS.
 
 ## Usage
 
-To use nodepass, you have to install nodepass globally.
+**nodepass is not available on npm**. Hence, you can't install it using `npm install nodepass`.
 
-```
-npm install -g nodepass
+In order to use nodepass, you have to run these commands.
+
+```sh 
+git clone https://github.com/ChinmayMhatre/NodePass.git
+cd NodePass
+
+npm install 
+npm link
+
 ```
 
 Once that's done, the command `nodepass` will be available. 
