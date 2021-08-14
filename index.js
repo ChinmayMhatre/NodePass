@@ -6,43 +6,103 @@ const log = console.log
 const createPassword = require("./utils/createPassword")
 const savePassword = require("./utils/savePassword")
 const deletePassword = require("./utils/deletePassword")
+const { Select ,Toggle ,NumberPrompt ,MultiSelect ,Confirm ,Input  } = require('enquirer');
+
+let lengthVal = 8; 
+let hasNumbers = true;
+let hasSymbols = true;
+
+//* steps
+
+    //* - generate pass
+    //*     - length
+    //*     - multichoice symbols numbers
+
+    //*     - do you want to save the pass?
+    //*         - enter the name which you want (default : unnamed)
+    //* - clear pass.txt
 
 
-program
-.version("1.0.0")
-.description("Simple Password Generator built on NodeJS")
 
+const mainFunc = async ()=>{
+    const main = new Select({
+        name: 'main',
+        message: 'Select What you want to do',
+        choices: ['Generate New Password', 'Clear password.txt (only works if you are in the same folders as the file)']
+    });
+    try {
+        const ans = await main.run()
+        const generate  = 'Generate New Password';
+        const clear     = 'Clear password.txt (only works if you are in the same folders as the file)'
+        switch (ans) {
+            case generate : 
+                    const length = new NumberPrompt({
+                        name: 'number',
+                        message: 'Please enter a length(default:8)'
+                        });
+                    const answer = await length.run()
+                    if(answer){
+                        lengthVal=answer
+                    }
+                    const exceptions = new MultiSelect({
+                        name: 'options',
+                        message: 'select options using (space) press (enter) to process ',
+                        limit: 2,
+                        choices: [
+                            { name: 'no symbols', value: 'symbol' },
+                            { name: 'no numbers', value: 'number' }
+                        ]
+                    });
+                    const exception = await exceptions.run()
+                    if (exception.includes("no symbols")){
+                        hasSymbols = false
+                    }
+                    if (exception.includes("no numbers")){
+                        hasNumbers = false
+                    }
 
-program
-.option("-l, --length <number>","Length of the password","8")
-.option("-n, --name <title>","What is this password for","unnamed password")
-.option("-s, --save","Save password to password.txt",)
-.option("-nn, --no-numbers","Exclude numbers in the password",)
-.option("-ns, --no-symbols","Exclude symbols in the password",)
-.option("-c, --clear","clear the password.txt file",)
-.parse()
+                    const password = createPassword(lengthVal,hasNumbers,hasSymbols)
 
-const {length, save, numbers, symbols,name,clear } = program.opts()
-
-if(clear){
-    //* Delete all content from password.txt
-    deletePassword()
-}else{
-
-    //* Generate password
-    const generatedPassword = createPassword(length,numbers,symbols)
-
-    //* Save to file 
-    if(save){
-        savePassword(generatedPassword,name)
+                    const save = new Confirm({
+                        name: 'question',
+                        message: 'Do you want to save the password to password.txt?'
+                    });
+                    const saveVal =await save.run()
+                        if(saveVal){
+                            const prompt = new Input({
+                                message: 'What is this password for?',
+                            });
+                            const name = await prompt.run()
+                                if(name.length = 0){
+                                    savePassword(password,"unknown")
+                                }else{
+                                    savePassword(password,name)
+                                }
+                            
+                        }
+                    //* Copy to clipboard
+                    clipboardy.writeSync(password)
+                    //* Output password
+                    log(chalk.blue("Generated password : ")+ chalk.yellow(password) )
+                    log(chalk.bgGreenBright.black("Password copied to clipboard") )
+                break;
+            case clear : 
+                    deletePassword()
+                break;
+        
+            default:
+                break;
+        }        
+    } catch (error) {
+        console.log(chalk.red("exiting"))
     }
-
-    //* Copy to clipboard
-    clipboardy.writeSync(generatedPassword)
-
-    //* Output password
-    log(chalk.blue("Generated password : ")+ chalk.yellow(generatedPassword) )
-    log(chalk.green("Password copied to clipboard") )
-
+    
+    
 }
+
+
+    mainFunc()
+
+
+
 
