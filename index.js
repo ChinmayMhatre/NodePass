@@ -65,7 +65,7 @@ const mainFunc = async ()=>{
 
                     const save = new Confirm({
                         name: 'question',
-                        message: 'Do you want to save the password to password.txt?'
+                        message: `Do you want to save the password to ${chalk.yellow(process.cwd(),"\password.txt?")}`
                     });
                     const saveVal =await save.run()
                         if(saveVal){
