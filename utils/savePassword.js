@@ -5,7 +5,7 @@ const path = require("path")
 
 const savePassword = (password,name) =>{
     fs.open(
-        path.join(__dirname,"../","passwords.txt"),
+        path.join(process.cwd(),"/passwords.txt"),
         "a",
         666,
         (e,id)=>{

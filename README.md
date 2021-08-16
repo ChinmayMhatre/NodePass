@@ -2,7 +2,7 @@
 
 NodePass is a simple password generator which runs on NodeJS.
 
-## Usage
+<!-- ## Usage
 
 **nodepass is not available on npm**. Hence, you can't install it using `npm install nodepass`.
 
@@ -46,6 +46,6 @@ Options:
   | -ns   | --no-symbols      | Exclude symbols in the password                           |
   | -h    | --help            | display help for command                                  |
   | -V    | --version         | output the version number                                 |
-  | -c    | --clear           | clear the password.txt file                               | 
+  | -c    | --clear           | clear the password.txt file                               |  -->
   
 

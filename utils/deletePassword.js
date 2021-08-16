@@ -3,9 +3,9 @@ const os = require("os")
 const chalk = require("chalk")
 const path = require("path")
 
-const deletePassword = (password,name) =>{
+const deletePassword = () =>{
     fs.open(
-        path.join(__dirname,"../","passwords.txt"),
+        path.join(process.cwd(),"/passwords.txt"),
         "w",
         666,
         (e,id)=>{
